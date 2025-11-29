@@ -9,9 +9,6 @@ It includes:
 ✔ Tailwind CSS UI
 ✔ No backend, no data collection
 
-🔗 Live Demo
-
-https://yourusername.github.io/ransomware-awareness/
 
 🧰 Skills Demonstrated
 
