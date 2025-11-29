@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ransomware Awareness & Response</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the ransom note demo */
+        .ransom-note-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 50;
+            place-items: center;
+        }
+        .ransom-note-content {
+            font-family: 'Courier New', monospace;
+            background-color: #1a1a1a;
+            color: #ff3333;
+            border: 4px solid #ff3333;
+            box-shadow: 0 0 40px rgba(255, 51, 51, 0.5);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { box-shadow: 0 0 30px rgba(255, 51, 51, 0.5); }
+            to { box-shadow: 0 0 50px rgba(255, 51, 51, 0.8); }
+        }
+
+        /* Ensure smooth scrolling and font consistency */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f7f9fb;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#0056b3',
+                        'accent': '#ffc107',
+                        'danger': '#dc3545',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen">
+
+    <!-- Header & Title -->
+    <header class="bg-primary text-white shadow-lg">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <h1 class="text-3xl font-bold">
+                <span role="img" aria-label="Shield">🛡️</span> Cyber Resilience Training
+            </h1>
+            <button onclick="toggleRansomNote(true)" class="bg-danger hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105">
+                Ransomware Demo
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+
+        <!-- Introduction Section -->
+        <section class="mb-12 bg-white p-8 rounded-xl shadow-2xl border-t-4 border-primary">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Understanding the Threat</h2>
+            <p class="text-xl text-gray-600 mb-6">
+                Ransomware is the #1 threat facing organizations today. Your vigilance is our best defense. This module provides essential knowledge to recognize, prevent, and respond to potential attacks.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="p-4 bg-primary/10 rounded-lg">
+                    <p class="text-2xl font-bold text-primary">Encryption</p>
+                    <p class="text-gray-700 text-sm">Locks files, making data unusable.</p>
+                </div>
+                <div class="p-4 bg-primary/10 rounded-lg">
+                    <p class="text-2xl font-bold text-primary">The Demand</p>
+                    <p class="text-gray-700 text-sm">Requires payment (often crypto) for a decryption key.</p>
+                </div>
+                <div class="p-4 bg-primary/10 rounded-lg">
+                    <p class="text-2xl font-bold text-primary">The Rule</p>
+                    <p class="text-gray-700 text-sm">We **DO NOT** pay the ransom. We recover using backups.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prevention Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-accent pb-2 mb-6">1. Prevention: Our First Line of Defense</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Phishing Security -->
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-primary mb-4 flex items-center">
+                        <span class="mr-3 text-3xl">📧</span> Email & Phishing
+                    </h3>
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rule</th>
+                                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-3 py-2 whitespace-nowrap font-medium text-gray-900">Hover</td>
+                                <td class="px-3 py-2 text-sm text-gray-700">Check the URL before clicking any link.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 whitespace-nowrap font-medium text-gray-900">Scrutinize</td>
+                                <td class="px-3 py-2 text-sm text-gray-700">Be suspicious of unexpected attachments (especially .zip or .exe).</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 whitespace-nowrap font-medium text-gray-900">Verify</td>
+                                <td class="px-3 py-2 text-sm text-gray-700">Verbally confirm urgent demands (funds, credentials) with the sender.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Device Hygiene -->
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-primary mb-4 flex items-center">
+                        <span class="mr-3 text-3xl">💻</span> Device Hygiene
+                    </h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="text-accent text-xl mr-3 font-bold">✔</span>
+                            <div>
+                                <span class="font-semibold text-gray-900">Backup Discipline:</span> Always save work to network/cloud storage. **Local files are at risk.**
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent text-xl mr-3 font-bold">✔</span>
+                            <div>
+                                <span class="font-semibold text-gray-900">Keep Systems Updated:</span> Run patches immediately. Updates fix the security gaps that attackers exploit.
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent text-xl mr-3 font-bold">✔</span>
+                            <div>
+                                <span class="font-semibold text-gray-900">Use MFA:</span> Utilize Multi-Factor Authentication wherever required to protect high-value accounts.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Response Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-danger pb-2 mb-6">2. Detection and Response: What to Do NOW</h2>
+            
+            <div class="bg-danger/10 p-8 rounded-xl border-l-4 border-danger shadow-lg">
+                <p class="text-2xl font-bold text-danger mb-4">SUSPECTED RANSOMWARE INCIDENT</p>
+                <div class="space-y-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-danger text-white h-8 w-8 rounded-full flex items-center justify-center text-lg font-bold">1</div>
+                        <div class="ml-4">
+                            <h4 class="text-xl font-semibold text-gray-900">Disconnect Immediately</h4>
+                            <p class="text-gray-700">Physically unplug the network cable or turn off Wi-Fi. **This stops the spread.**</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-danger text-white h-8 w-8 rounded-full flex items-center justify-center text-lg font-bold">2</div>
+                        <div class="ml-4">
+                            <h4 class="text-xl font-semibold text-gray-900">DO NOT Turn Off</h4>
+                            <p class="text-gray-700">Keep the machine ON. Security needs the live memory (RAM) for forensic evidence.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-danger text-white h-8 w-8 rounded-full flex items-center justify-center text-lg font-bold">3</div>
+                        <div class="ml-4">
+                            <h4 class="text-xl font-semibold text-gray-900">Report Immediately</h4>
+                            <p class="text-gray-700">Call the IT/Security Help Desk at <span class="font-mono bg-yellow-200 px-2 py-1 rounded-md text-red-800 font-bold">[555-INCIDENT]</span>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Takeaway -->
+        <section class="text-center py-8 bg-primary text-white rounded-xl shadow-2xl">
+            <h2 class="text-3xl font-bold mb-2">Key Takeaway</h2>
+            <p class="text-xl">You are the last line of defense. Be smart, be cautious, and follow the **DISCONNECT** rule.</p>
+        </section>
+
+    </main>
+
+    <!-- Fake Ransom Note Modal (Interactive Demo) -->
+    <div id="ransomNote" class="ransom-note-container grid">
+        <div id="ransomNoteContent" class="ransom-note-content p-8 w-11/12 max-w-2xl mx-auto rounded-lg">
+            <h1 class="text-4xl font-bold mb-6 text-center">!!! YOUR FILES ARE ENCRYPTED !!!</h1>
+            <p class="text-xl mb-4">
+                All documents, photos, databases, and other files have been securely encrypted by a **STRONG ENCRYPTION ALGORITHM**.
+            </p>
+            <p class="text-lg mb-4">
+                No one can restore your files without our unique decryption key. **Do not attempt to decrypt them yourself.** You will only destroy your data.
+            </p>
+            <p class="text-lg mb-6">
+                To recover your data, you must pay **2.5 BITCOIN** to the wallet address provided below. If you do not pay within 48 hours, the price will double. If you wait 7 days, your key will be deleted, and your files will be lost forever.
+            </p>
+            <div class="bg-[#330000] p-4 my-6 border border-danger">
+                <p class="text-sm">Wallet: <span class="font-bold">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</span></p>
+                <p class="text-sm">Timer: <span id="ransomTimer" class="font-bold">47:59:59</span></p>
+            </div>
+            <p class="text-center text-lg mt-6 bg-red-900/50 p-2">
+                **REMEMBER THE TRAINING:** Do not pay. Disconnect the network cable NOW.
+            </p>
+            <button onclick="toggleRansomNote(false)" class="mt-8 w-full bg-[#ff3333] hover:bg-white hover:text-red-600 text-black font-bold py-3 rounded-md transition duration-300">
+                [ Click Here To Close Demo ]
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle the fake ransomware note demo
+        
+        let timerInterval;
+
+        /**
+         * Toggles the visibility of the fake ransom note modal.
+         * @param {boolean} show - True to show the modal, false to hide.
+         */
+        function toggleRansomNote(show) {
+            const modal = document.getElementById('ransomNote');
+            
+            if (show) {
+                modal.style.display = 'grid';
+                // Start a dummy timer for visual effect
+                let seconds = 3600 * 48; // 48 hours in seconds
+                
+                // Clear any existing timer
+                if (timerInterval) clearInterval(timerInterval);
+
+                const timerDisplay = document.getElementById('ransomTimer');
+
+                function updateTimer() {
+                    if (seconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerDisplay.textContent = "TIME EXPIRED";
+                        return;
+                    }
+                    seconds--;
+                    const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+                    const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+                    const s = String(seconds % 60).padStart(2, '0');
+                    timerDisplay.textContent = `${h}:${m}:${s}`;
+                }
+
+                // Initial call to set the time immediately
+                updateTimer();
+                // Set the interval to update the timer every second
+                timerInterval = setInterval(updateTimer, 1000); 
+
+            } else {
+                modal.style.display = 'none';
+                if (timerInterval) clearInterval(timerInterval);
+            }
+        }
+
+        // Set initial state
+        window.onload = () => {
+             // You can optionally call toggleRansomNote(true) here to show it immediately on load
+             // For training, we keep it hidden and triggered by the button.
+        };
+
+        // Note on the downloadable PDF:
+        // If you host your Incident Response Plan (incident_response_plan.md) as a PDF named 
+        // 'incident_response_plan.pdf' in the same folder, you can add a link like this:
+        /*
+        <a href="incident_response_plan.pdf" target="_blank" class="text-primary hover:text-blue-700 font-semibold mt-4 block text-center">
+            Download Full Incident Response Plan (IRP)
+        </a>
+        */
+        
+    </script>
+</body>
+</html>
